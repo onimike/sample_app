@@ -1,14 +1,11 @@
-== Welcome to the Chapter 3 sample app on static pages!
+== Welcome to the Chapter 3 and 5 sample app!
 
-Heroku links:
+Heroku links (updated for chapter 5 stuff!)
 
-http://afternoon-lightning-8926.heroku.com/pages/home
+http://mrsampleapp.heroku.com/
 
-http://afternoon-lightning-8926.heroku.com/pages/contact
 
-http://afternoon-lightning-8926.heroku.com/pages/about
-
-Screenshots for autotests:
+Screenshots for autotests (from chapter 3 HW):
 
 Autotest pass WITH Yield: http://i.imgur.com/7XSVn.png
 
