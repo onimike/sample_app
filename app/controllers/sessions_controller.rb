@@ -11,7 +11,14 @@ class SessionsController < ApplicationController
 		@title = "Sign in"
 		render 'new'
 	else
-		sign_in user
+		if((params[:remember])=="1")
+			flash[:success] = "Being remembered"
+			sign_in_remember user
+		else
+			flash[:success] = "Not being remembered"
+			sign_in_temp user
+		end
+#		sign_in user
 		redirect_to user
 	end
   end

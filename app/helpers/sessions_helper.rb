@@ -5,6 +5,16 @@ module SessionsHelper
 		self.current_user = user
 	end
 	
+	def sign_in_temp(user)
+		cookies.signed[:remember_token] = [user.id, user.salt]
+		self.current_user = user
+	end
+	
+	def sign_in_remember(user)
+		cookies.permanent.signed[:remember_token] = [user.id, user.salt]
+		self.current_user = user	
+	end
+	
 	def current_user=(user)
 		@current_user = user
 	end

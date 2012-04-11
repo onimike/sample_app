@@ -9,6 +9,10 @@
 		<%= f.label :password %><br />
 		<%= f.password_field :password %>
 	</div>
+	<div class="field">
+		<%= check_box_tag :remember, 1 %> <!--I tried f.check_box and couldn't get it to work.-->
+		<%= f.label :remember_me %>
+	</div>
 	<div class="actions">
 		<%= f.submit "Sign in" %>
 	</div>

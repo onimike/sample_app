@@ -9,6 +9,7 @@
     <td class="sidebar round">
       <strong>Name</strong> <%= @user.name %><br />
       <strong>URL</strong>  <%= link_to user_path(@user), @user %><br />
+	  <strong>Recent activity</strong> <%= @user.updated_at.in_time_zone("Pacific Time (US & Canada)") %>
     </td>
   </tr>
 </table>
