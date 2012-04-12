@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
 			flash[:success] = "Not being remembered"
 			sign_in_temp user
 		end
-#		sign_in user
+		user.touch #touches the database to change updated_at in the user model
 		redirect_to user
 	end
   end

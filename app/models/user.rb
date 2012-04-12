@@ -12,7 +12,7 @@
 require 'digest'
 class User < ActiveRecord::Base
   attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation, :last_login
 
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -29,9 +29,9 @@ class User < ActiveRecord::Base
 					 
 	before_save :encrypt_password
 
-  def has_password?(submitted_password)
-    encrypted_password == encrypt(submitted_password)
-  end
+	def has_password?(submitted_password)
+		encrypted_password == encrypt(submitted_password)
+	end
   
 	def self.authenticate(email, submitted_password)
 		user = find_by_email(email)
