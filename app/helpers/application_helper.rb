@@ -1,16 +1,16 @@
 module ApplicationHelper
-  #Return a title on a per-page basis.
-  def title #Call this method by using <%= title %>
+  
+  # Return a title on a per-page basis.
+  def title
     base_title = "Ruby on Rails Tutorial Sample App"
-    if @title.nil? #If @title isn't set
-      base_title #the title is the base_title by itself
+    if @title.nil?
+      base_title
     else
-      "#{base_title} | #{@title}" #Otherwise the title is base_title | title
+      "#{base_title} | #{@title}"
     end
   end
-
+  
   def logo
-    logo = image_tag("logo.png", :alt => "Sample App", :class => "round")
+    image_tag("logo.png", :alt => "Sample App", :class => "round")
   end
-
 end
