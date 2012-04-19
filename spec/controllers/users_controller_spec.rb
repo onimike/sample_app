@@ -6,18 +6,43 @@ describe UsersController do
   describe "GET 'index'" do
 
     describe "for non-signed-in users" do
-      it "should deny access" do
-        get :index
-        response.should redirect_to(signin_path)
-      end
+	
+	before(:each) do
+        first = Factory(:user, :name => "Mike", :email => "another@example.com", :ispublic => true)
+        second  = Factory(:user, :name => "Jason", :email => "another@example.net", :ispublic => false)
+		@users=[first,second]
+	end
+		
+	it "should grant access" do
+		get :index
+		response.should be_success
+	end
+	
+	it "should list only public profiles" do
+		@users.each do |u|
+			if(u.ispublic)
+				get :index
+				response.should have_selector("li", :content => u.name)
+			else
+				get :index
+				response.should_not have_selector("li", :content => u.name)
+			end
+		end
+	end
+	
+	
+#      it "should deny access" do
+#        get :index
+#        response.should redirect_to(signin_path)
+#      end
     end
     
     describe "for signed-in-users" do
 
       before(:each) do
         @user = test_sign_in(Factory(:user))
-        second = Factory(:user, :name => "Bob", :email => "another@example.com")
-        third  = Factory(:user, :name => "Ben", :email => "another@example.net")
+        second = Factory(:user, :name => "Bob", :email => "another@example.com", :ispublic => true)
+        third  = Factory(:user, :name => "Ben", :email => "another@example.net", :ispublic => false)
         
         30.times do
           Factory(:user, :name => Factory.next(:name),
@@ -66,11 +91,60 @@ describe UsersController do
         response.should_not have_selector('a', :href => user_path(other_user),
                                                :content => "delete")
       end
+	  
+	  it "should show profiles" do
+		@user.each do |u|
+			if(u.ispublic)
+				get :index
+				response.should have_selector("li", :content => u.name)
+			else
+				get :index
+				response.should have_selector("li", :content => u.name)
+			end
+		end
+	  end
+	  
     end
-  end
+	end
 
   describe "GET 'show'" do
-    
+  
+	describe "for non-signed-in users" do
+      before(:each) do
+        first = Factory(:user, :name => "Bill", :email => "another@example.org", :ispublic => true)
+        second = Factory(:user, :name => "Bob", :email => "another@example.com", :ispublic => false)
+        @users = [first, second]
+      end
+      
+      it "should only show public profiles" do
+         @users.each do |u|
+           if(u.ispublic)
+               get :show, :id => user.id
+               response.should have_selector("li", :content => user.name)
+           else
+               get :show, :id => user.id
+               response.should_not have_selector("li", :content => user.name)
+           end
+          end
+       end
+      end#
+
+    describe "for signed-in users" do
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        first = Factory(:user, :name => "Bill", :email => "another@example.org", :public => true)
+        second = Factory(:user, :name => "Bob", :email => "another@example.com", :public => false)
+        @users = [@user, first]
+      end
+      
+      it "should show public and private profiles" do
+         @users.each do |user|
+               get :show, :id => user.id
+               response.should have_selector("li", :content => user.name)
+         end
+       end
+    end
+	
     before(:each) do
       @user = Factory(:user)
     end

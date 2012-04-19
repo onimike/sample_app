@@ -271,4 +271,25 @@ describe User do
       @followed.followers.should include(@user)
     end
   end
+  
+	describe "ispublic" do
+
+    before(:each) do
+      @user = User.create!(@attr)
+    end
+
+    it "should respond to :ispublic" do
+      @user.should respond_to(:ispublic)
+    end
+
+    it "should not be public" do
+      @user.should_not be_public
+    end
+    
+    it "should be able to toggle :ispublic" do
+      @user.toggle!(:public)
+      @user.should be_public
+    end
+  end
+
 end
